@@ -32,4 +32,11 @@ public class ExpenseController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("dashboard")]
+    public async Task<ActionResult<DashboardDto>> GetDashboard()
+    {
+        var dashboard = await _transactionService.GetDashboardAsync();
+        return Ok(dashboard);
+    }
+
 }

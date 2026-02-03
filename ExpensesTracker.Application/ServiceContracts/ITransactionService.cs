@@ -11,4 +11,5 @@ public interface ITransactionService
     Task<bool> CreateTransactionAsync(AddTransactionDto transaction);
     Task UpdateTransactionAsync(AddTransactionDto transaction);
     Task<bool> DeleteTransactionAsync(int transactionId);
+    Task<DashboardDto> GetDashboardAsync();
 }
