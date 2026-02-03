@@ -1,11 +1,12 @@
 ﻿using ExpensesTracker.Core.Entities;
 using ExpensesTracker.Core.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace ExpensesTracker.Infrastructure.Data;
 
-public class ExpenseDbContext:DbContext
+public class ExpenseDbContext:IdentityDbContext<ApplicationUser>
 {
 
     public DbSet<Transaction> Transactions { get; set; }
