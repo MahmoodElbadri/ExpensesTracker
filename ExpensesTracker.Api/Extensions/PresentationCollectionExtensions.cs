@@ -24,6 +24,20 @@ public static class PresentationCollectionExtensions
                 In = Microsoft.OpenApi.Models.ParameterLocation.Header,
                 Description = "Enter 'Bearer' [space] and then your valid JWT token.\nExample: Bearer eyJhbGciOiJIUzI1NiIs..."
             });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
         });
         services.AddInfrastructureServices(configuration);
         services.AddApplicationServices();
