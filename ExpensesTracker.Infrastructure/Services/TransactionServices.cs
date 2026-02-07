@@ -7,11 +7,13 @@ using ExpensesTracker.Core.Enums;
 
 namespace ExpensesTracker.Infrastructure.Services;
 
-public class TransactionServices(IMapper mapper, IUnitOfWork uow) : ITransactionService
+public class TransactionServices(IMapper mapper, IUnitOfWork uow, ICurrentUserService currentUser) : ITransactionService
 {
     public async Task<bool> CreateTransactionAsync(AddTransactionDto dto)
     {
+        var user = await currentUser.GetUserIdAsync();
         var transaction = mapper.Map<AddTransactionDto, Transaction>(dto);
+        transaction.UserId = user;
         await uow.Transactions.AddAsync(transaction);
         return await uow.CompleteAsync() > 0;
     }
@@ -23,14 +25,16 @@ public class TransactionServices(IMapper mapper, IUnitOfWork uow) : ITransaction
 
     public async Task<List<TransactionDto>> GetAllTransactionsAsync()
     {
-        var transactions = await uow.Transactions.GetAllAsync();
+        var user = await currentUser.GetUserIdAsync();
+        var transactions = await uow.Transactions.FindAsync(tmp=>tmp.UserId == user);
         var dtos = mapper.Map<List<TransactionDto>>(transactions);
         return dtos;
     }
 
     public async Task<DashboardDto> GetDashboardAsync()
     {
-        var transactions = await uow.Transactions.GetAllAsync();
+        var user = await currentUser.GetUserIdAsync();
+        var transactions = await uow.Transactions.FindAsync(tmp => tmp.UserId == user);
         //getting dashboard items which are total income and total expense and balance based on amound and type
 
         var TotalExpense = transactions.Where(tmp => tmp.Type == TRANSACTION_TYPES.EXPENSE).Sum(tmp => tmp.Amount);

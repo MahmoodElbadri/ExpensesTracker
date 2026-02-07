@@ -29,34 +29,34 @@ public class ExpenseDbContext:IdentityDbContext<ApplicationUser>
 
         
 
-        modelBuilder.Entity<Transaction>()
-            .HasData(
-            new Transaction()
-            {
-                Id = 1,
-                Description = "Salary",
-                Amount = 5000,
-                Type = TRANSACTION_TYPES.INCOME,
-                Date = DateTime.Now,
-                Category = "Salary"
-            },
-            new Transaction()
-            {
-                Id = 2,
-                Description = "Groceries",
-                Amount = 100,
-                Type = TRANSACTION_TYPES.EXPENSE,
-                Date = DateTime.Now,
-                Category = "Groceries"
-            },
-            new Transaction()
-            {
-                Id = 3,
-                Amount = 200,
-                Type = TRANSACTION_TYPES.EXPENSE,
-                Date = DateTime.Now,
-                Category = "Entertainment",
-                Description = "Cinema"
-            });
+        //modelBuilder.Entity<Transaction>()
+        //    .HasData(
+        //    new Transaction()
+        //    {
+        //        Id = 1,
+        //        Description = "Salary",
+        //        Amount = 5000,
+        //        Type = TRANSACTION_TYPES.INCOME,
+        //        Date = DateTime.Now,
+        //        Category = "Salary"
+        //    },
+        //    new Transaction()
+        //    {
+        //        Id = 2,
+        //        Description = "Groceries",
+        //        Amount = 100,
+        //        Type = TRANSACTION_TYPES.EXPENSE,
+        //        Date = DateTime.Now,
+        //        Category = "Groceries"
+        //    },
+        //    new Transaction()
+        //    {
+        //        Id = 3,
+        //        Amount = 200,
+        //        Type = TRANSACTION_TYPES.EXPENSE,
+        //        Date = DateTime.Now,
+        //        Category = "Entertainment",
+        //        Description = "Cinema"
+        //    });
     }
 }

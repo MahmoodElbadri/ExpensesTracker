@@ -56,5 +56,7 @@ public static class InfrastructureCollectionExtensions
                     Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
             };
         });
+
+        services.AddScoped<IAuthService, AuthService>();
     }
 }

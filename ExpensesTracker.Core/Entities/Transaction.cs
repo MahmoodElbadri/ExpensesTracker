@@ -10,4 +10,5 @@ public class Transaction
     public DateTime Date { get; set; }
     public TRANSACTION_TYPES Type { get; set; }
     public string Category { get; set; }
+    public string UserId { get; set; }
 }

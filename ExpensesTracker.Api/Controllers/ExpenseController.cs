@@ -3,12 +3,14 @@ using ExpensesTracker.Application.Dtos;
 using ExpensesTracker.Application.Interfaces;
 using ExpensesTracker.Application.ServiceContracts;
 using ExpensesTracker.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpensesTracker.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ExpenseController : ControllerBase
 {
     private readonly ITransactionService _transactionService;

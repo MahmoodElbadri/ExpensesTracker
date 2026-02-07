@@ -1,4 +1,5 @@
-﻿using ExpensesTracker.Application.ServiceContracts;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -9,5 +10,7 @@ public static class ApplicationCollectionExtensions
     public static void AddApplicationServices(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddFluentValidationAutoValidation();
     }
 }
