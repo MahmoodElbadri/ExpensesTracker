@@ -18,6 +18,7 @@ public class AuthService(UserManager<ApplicationUser> _userManager, IConfigurati
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
         {
+            //throw new Exception("Email or password is invalid");
             throw new Exception("Email or password is invalid");
         }
         var result = await _userManager.CheckPasswordAsync(user, dto.Password);

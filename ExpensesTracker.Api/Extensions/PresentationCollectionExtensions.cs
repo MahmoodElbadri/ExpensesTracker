@@ -1,6 +1,7 @@
 ﻿using ExpensesTracker.Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
 using ExpensesTracker.Application.Extensions;
+using ExpensesTracker.Api.Middlewares;
 
 namespace ExpensesTracker.Api.Extensions;
 
@@ -9,7 +10,7 @@ public static class PresentationCollectionExtensions
     public static void AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
         // Add services to the container.
-
+        services.AddTransient<ErrorHandlingMiddleware>();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options => //code to add the JWT authentication in Swagger is constant for all projects
