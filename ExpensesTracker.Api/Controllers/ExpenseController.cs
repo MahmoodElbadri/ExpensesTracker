@@ -41,4 +41,25 @@ public class ExpenseController : ControllerBase
         return Ok(dashboard);
     }
 
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteTransaction(int id)
+    {
+        await _transactionService.DeleteTransactionAsync(id);
+        return NoContent();
+    }
+
+    [HttpPut("{id:int}")] 
+    public async Task<IActionResult> UpdateTransaction(int id, [FromBody] AddTransactionDto dto)
+    {
+        await _transactionService.UpdateTransactionAsync(dto, id);
+        return NoContent();
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<TransactionDto>> GetTransactionById(int id)
+    {
+        var transaction = await _transactionService.GetTransactionByIdAsync(id);
+        return Ok(transaction);
+    }
+
 }
