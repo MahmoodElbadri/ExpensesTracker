@@ -60,5 +60,6 @@ public static class InfrastructureCollectionExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ICategoryService, CategoryService>();
     }
 }

@@ -8,5 +8,5 @@ public class AddTransactionDto
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
     public TRANSACTION_TYPES Type { get; set; }
-    public string Category { get; set; }
+    public int CategoryId { get; set; }
 }
