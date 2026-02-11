@@ -10,6 +10,7 @@ public class ExpenseDbContext:IdentityDbContext<ApplicationUser>
 {
 
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Budget> Budgets { get; set; }
     public ExpenseDbContext(DbContextOptions<ExpenseDbContext> options) : base(options)
     {
 
@@ -26,6 +27,10 @@ public class ExpenseDbContext:IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Transaction>()
             .Property(tmp=> tmp.Type)
             .HasConversion<string>();
+
+        modelBuilder.Entity<Budget>()
+            .Property(tmp=>tmp.Amount)
+            .HasPrecision(18,2);
 
         
 
