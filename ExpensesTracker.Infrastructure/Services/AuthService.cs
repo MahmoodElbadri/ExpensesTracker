@@ -11,7 +11,7 @@ using System.Text;
 
 namespace ExpensesTracker.Infrastructure.Services;
 
-public class AuthService(UserManager<ApplicationUser> _userManager, IConfiguration _configuration) : IAuthService
+public class AuthService(UserManager<ApplicationUser> _userManager, IConfiguration _configuration, IUnitOfWork uow) : IAuthService
 {
     public async Task<AuthResponseDto> LoginUserAsync(LoginDto dto)
     {
@@ -48,6 +48,18 @@ public class AuthService(UserManager<ApplicationUser> _userManager, IConfigurati
             var errors = result.Errors.Select(x => x.Description).ToList();
             throw new Exception(string.Join(" ", errors));
         }
+        var defaultCategories = new List<Category>
+    {
+        new Category { Name = "Food", Icon = "🍔", Color = "#FF5733", UserId = user.Id },
+        new Category { Name = "Transport", Icon = "🚗", Color = "#33FF57", UserId = user.Id },
+        new Category { Name = "Salary", Icon = "💰", Color = "#3357FF", UserId = user.Id },
+        new Category { Name = "Shopping", Icon = "🛍️", Color = "#F333FF", UserId = user.Id }
+    };
+        foreach(Category category in defaultCategories)
+        {
+            await uow.Categories.AddAsync(category);
+        }
+        await uow.CompleteAsync();
         return new AuthResponseDto
         {
             Email = user.Email,

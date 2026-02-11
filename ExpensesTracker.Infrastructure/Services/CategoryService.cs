@@ -17,7 +17,10 @@ public class CategoryService(IUnitOfWork uow, IMapper mapper, ICurrentUserServic
         }
         var category = mapper.Map<AddCategoryDto, Category>(dto);
         category.UserId = user;
+        if (string.IsNullOrEmpty(category.Color)) category.Color = "#000000";
+        if (string.IsNullOrEmpty(category.Icon)) category.Icon = "fa-tag";
         await uow.Categories.AddAsync(category);
+        await uow.CompleteAsync();
 
         // Map the properties of category to dto
         var dtoResult = mapper.Map<Category, CategoryDto>(category);
@@ -80,6 +83,6 @@ public class CategoryService(IUnitOfWork uow, IMapper mapper, ICurrentUserServic
             throw new NotFoundException(nameof(Category), id.ToString());
         }
         mapper.Map(category, cat.First());
-        uow.CompleteAsync();
+       await uow.CompleteAsync();
     }
 }
