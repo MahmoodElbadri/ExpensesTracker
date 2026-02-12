@@ -3,6 +3,7 @@ using ExpensesTracker.Application.Dtos;
 using ExpensesTracker.Application.Interfaces;
 using ExpensesTracker.Application.ServiceContracts;
 using ExpensesTracker.Core.Entities;
+using ExpensesTracker.Core.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,21 +25,21 @@ public class ExpenseController : ControllerBase
     public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactions()
     {
         var transactions = await _transactionService.GetAllTransactionsAsync();
-        return Ok(transactions);
+        return Ok(new ApiResponse<IEnumerable<TransactionDto>>(transactions));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddExpense([FromBody] AddTransactionDto dto)
     {
        var transaction = await _transactionService.CreateTransactionAsync(dto);
-        return Ok();
+        return Ok(new ApiResponse<bool>(true));
     }
 
     [HttpGet("dashboard")]
     public async Task<ActionResult<DashboardDto>> GetDashboard()
     {
         var dashboard = await _transactionService.GetDashboardAsync();
-        return Ok(dashboard);
+        return Ok(new ApiResponse<DashboardDto>(dashboard));
     }
 
     [HttpDelete("{id:int}")]
@@ -59,7 +60,7 @@ public class ExpenseController : ControllerBase
     public async Task<ActionResult<TransactionDto>> GetTransactionById(int id)
     {
         var transaction = await _transactionService.GetTransactionByIdAsync(id);
-        return Ok(transaction);
+        return Ok(new ApiResponse<TransactionDto>(transaction));
     }
 
 }

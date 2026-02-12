@@ -18,7 +18,7 @@ public class BudgetService(IUnitOfWork uow, IMapper mapper, ICurrentUserService 
         tmp.StartDate == budgetDto.StartDate &&
         tmp.EndDate == budgetDto.EndDate);
 
-        if (isExist.Any()) return false;
+        if (isExist.Any()) throw new Exception("Budget already exist");
 
         var budget = mapper.Map<AddBudgetDto, Budget>(budgetDto);
         budget.UserId = userId;

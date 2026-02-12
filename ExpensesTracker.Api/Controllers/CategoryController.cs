@@ -1,5 +1,6 @@
 ﻿using ExpensesTracker.Application.Dtos;
 using ExpensesTracker.Application.Interfaces;
+using ExpensesTracker.Core.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,33 +15,35 @@ public class CategoryController(ICategoryService _catService) : ControllerBase
     public async Task<IActionResult> CreateCategory([FromBody] AddCategoryDto dto)
     {
         var catDto = await _catService.CreateCategoryAsync(dto);
-        return CreatedAtAction(nameof(GetCategoryById), new { id = catDto.Id }, catDto);
+        return CreatedAtAction(nameof(GetCategoryById), new { id = catDto.Id }, new ApiResponse<CategoryDto>(catDto));
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetCategoryById(int id)
     {
-        return Ok(await _catService.GetCategoryByIdAsync(id));
+        var catDto = await _catService.GetCategoryByIdAsync(id);
+        return Ok(new ApiResponse<CategoryDto>(catDto));
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllCategories()
     {
-        return Ok(await _catService.GetAllCategoriesAsync());
+        var cats = await _catService.GetAllCategoriesAsync();
+        return Ok(new ApiResponse<IEnumerable<CategoryDto>>(cats));
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateCategory(int id, [FromBody] AddCategoryDto dto)
     {
         await _catService.UpdateCategoryAsync(dto, id);
-        return NoContent();
+        return Ok(new ApiResponse<bool>(true));
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCategory(int id)
     {
         await _catService.DeleteCategoryAsync(id);
-        return NoContent();
+        return Ok(new ApiResponse<bool>(true));
     }
 
 }
