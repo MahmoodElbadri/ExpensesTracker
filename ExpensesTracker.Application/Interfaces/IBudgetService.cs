@@ -5,4 +5,6 @@ namespace ExpensesTracker.Application.Interfaces;
 public interface IBudgetService
 {
     Task<List<BudgetStatusDto>> GetBudgetStatusAsync();
+    Task<bool> CreateBudgetAsync(AddBudgetDto budgetDto);
+
 }
