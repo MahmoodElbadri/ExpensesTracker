@@ -29,7 +29,7 @@ public class ExpenseDbContext:IdentityDbContext<ApplicationUser>
             .HasConversion<string>();
 
         modelBuilder.Entity<Budget>()
-            .Property(tmp=>tmp.Amount)
+            .Property(tmp=>tmp.Limit)
             .HasPrecision(18,2);
 
         

@@ -8,6 +8,7 @@ public class UnitOfWork : IUnitOfWork
 {
     public IGenericRepository<Transaction> Transactions { get; private set; }
     public IGenericRepository<Category> Categories { get; private set; }
+    public IGenericRepository<Budget> Budgets { get; private set; } // TODO: Add>
     private readonly ExpenseDbContext db;
 
     public UnitOfWork(ExpenseDbContext db)
@@ -15,6 +16,7 @@ public class UnitOfWork : IUnitOfWork
         this.db = db;
         Transactions = new GenericRepository<Transaction>(db);
         Categories = new GenericRepository<Category>(db);
+        Budgets = new GenericRepository<Budget>(db);
     }
 
     public async Task<int> CompleteAsync()

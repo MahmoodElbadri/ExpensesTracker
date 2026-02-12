@@ -10,4 +10,6 @@ public interface IGenericRepository<T> where T : class
     Task AddAsync(T entity);
     void Update(T entity);
     void Delete(T entity);
+    Task<decimal> GetSumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal>> selector);
+    Task<IEnumerable<T>> FindWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
 }

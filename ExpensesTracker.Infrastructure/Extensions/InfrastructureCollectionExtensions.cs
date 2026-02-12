@@ -61,5 +61,6 @@ public static class InfrastructureCollectionExtensions
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBudgetService, BudgetService>();
     }
 }

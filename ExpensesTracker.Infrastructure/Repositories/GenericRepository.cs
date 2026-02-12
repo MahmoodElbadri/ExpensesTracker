@@ -37,4 +37,21 @@ public class GenericRepository<T>(ExpenseDbContext db) : IGenericRepository<T> w
     {
         db.Set<T>().Update(entity);
     }
+
+    public async Task<decimal> GetSumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal>> selector)
+    {
+        return await db.Set<T>().Where(predicate).SumAsync(selector);
+    }
+
+    public async Task<IEnumerable<T>> FindWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = db.Set<T>();
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.Where(predicate).ToListAsync();
+    }
 }

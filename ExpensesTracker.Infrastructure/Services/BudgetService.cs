@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ExpensesTracker.Application.Dtos;
 using ExpensesTracker.Application.Interfaces;
+using ExpensesTracker.Core.Enums;
 
 namespace ExpensesTracker.Infrastructure.Services;
 
@@ -8,14 +9,38 @@ public class BudgetService(IUnitOfWork uow, IMapper mapper, ICurrentUserService 
 {
     public async Task<List<BudgetStatusDto>> GetBudgetStatusAsync()
     {
-        var userId = await currentUser.GetUserIdAsync();
-        if(userId == null)
+        var userId = await currentUser.GetUserIdAsync(); 
+
+        if (string.IsNullOrEmpty(userId)) throw new Exception("User not found");
+
+        var now = DateTime.UtcNow;
+
+        var budgets = await uow.Budgets.FindWithIncludeAsync(
+            b => b.UserId == userId && b.StartDate <= now && b.EndDate >= now,
+            b => b.Category 
+        );
+
+        var result = new List<BudgetStatusDto>();
+
+        foreach (var budget in budgets)
         {
-            throw new Exception("User not found");
+            var spent = await uow.Transactions.GetSumAsync(
+                t => t.UserId == userId
+                     && t.CategoryId == budget.CategoryId
+                     && t.Date >= budget.StartDate
+                     && t.Date <= budget.EndDate
+                     && t.Type == TRANSACTION_TYPES.EXPENSE,
+                t => t.Amount
+            );
+
+            result.Add(new BudgetStatusDto
+            {
+                CategoryName = budget.Category?.Name ?? "Unknown", 
+                Limit = budget.Limit,
+                Spent = spent
+            });
         }
 
-        //var budgets = await uow.
-        throw new NotImplementedException();
-        //TODO tomorrow i need ti add the uow -add the budget- and the mapper
+        return result;
     }
 }
