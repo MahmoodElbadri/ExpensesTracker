@@ -2,6 +2,7 @@ using ExpensesTracker.Api.Extensions;
 using ExpensesTracker.Api.Middlewares;
 using ExpensesTracker.Application.Extensions;
 using ExpensesTracker.Infrastructure.Extensions;
+using Hangfire;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,8 @@ app.UseCors("AllowAngular");
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseHangfireDashboard("/hangfire");
 
 app.MapControllers();
 

@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using ExpensesTracker.Application.Extensions;
 using ExpensesTracker.Api.Middlewares;
+using Hangfire;
 
 namespace ExpensesTracker.Api.Extensions;
 
@@ -52,5 +53,14 @@ public static class PresentationCollectionExtensions
                 .WithOrigins("http://localhost:4200");
             });
         });
+
+        services.AddHangfire(config =>
+        {
+            config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
+        });
+        services.AddHangfireServer();
     }
 }
